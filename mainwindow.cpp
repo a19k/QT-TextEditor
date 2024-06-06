@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->textEdit->setFontPointSize(14);
+    //ui->textEdit->setFontPointSize(14);
 }
 
 MainWindow::~MainWindow()
@@ -177,9 +177,18 @@ void MainWindow::on_textEdit_cursorPositionChanged()
         ui->actionUnderline->setChecked(0);
 
     //Font Wheel update
-    ui->fontWheel->setCurrentFont(ui->textEdit->fontFamily());
+    QFont *family=new QFont("MS Shell Dlg 2",14,QFont::Normal);
+
+    if(ui->textEdit->fontFamily()=="")
+        ui->fontWheel->setCurrentFont(*family);
+    else
+        ui->fontWheel->setCurrentFont(ui->textEdit->fontFamily());
 
     //Font Size Wheel update
-    ui->fontSizeWheel->setValue(ui->textEdit->fontPointSize());
+    if(ui->textEdit->fontPointSize()==0)
+        ui->fontSizeWheel->setValue(14);
+    else
+        ui->fontSizeWheel->setValue(ui->textEdit->fontPointSize());
 
 }
+
