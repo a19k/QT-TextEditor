@@ -3,13 +3,43 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include <QFontComboBox>
+#include <QMessageBox>
+#include <QPushButton>
+#include "find.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ui->textEdit->setFontPointSize(14);
+    f=new Find(this);
+    r=new Replace(this);
+
+    //FIND WINDOW KONEKCIJE
+
+    //Find action poziva Find Window
+    connect(ui->actionFind,SIGNAL(triggered(bool)),this,SLOT(showFindWindow()));
+
+    //Find Next dugme poziva findNextHandler
+    connect(f,SIGNAL(findNext(QString&,bool,bool)),this,SLOT(findNextHandler(QString&,bool,bool)));
+    //promjena traženog stringa poziva refreshCursorHandler
+    connect(f,SIGNAL(refreshCursor()),this,SLOT(refreshCursorHandler()));
+
+
+
+
+    //REPLACE WINDOW KONEKCIJE
+    //Replace action poziva Replace window
+    connect(ui->actionReplace,SIGNAL(triggered(bool)),this,SLOT(showReplaceWindow()));
+
+    //Find Next dugme poziva findNextHandler
+    connect(r,SIGNAL(findNext(QString&,bool,bool)),this,SLOT(findNextHandler(QString&,bool,bool)));
+    //Replace dugme poziva replaceHandler
+    connect(r,SIGNAL(replace(QString&,QString&)),this,SLOT(replaceHandler(QString&,QString&)));
+    //promjena traženog stringa poziva refreshCursorHandler
+    connect(r,SIGNAL(refreshCursor()),this,SLOT(refreshCursorHandler()));
+
 }
 
 MainWindow::~MainWindow()
@@ -19,7 +49,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionNew_triggered()
 {
-    // New file
+    //otvaranje novog fajla
     nazivDatoteke ="";
     ui->textEdit->setAcceptRichText(1);
     ui->textEdit->setPlainText("");
@@ -28,7 +58,7 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    // Open file
+    //otvaranje postojećeg fajla
     QString datoteka = QFileDialog::getOpenFileName(this,"Otvorite datoteku");
     if(!datoteka.isEmpty()){
         QFile radnaDatoteka(datoteka);
@@ -45,7 +75,7 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    //Save file
+    //spremanje otvorenog fajla
     QFile radnaDatoteka(nazivDatoteke);
     if(radnaDatoteka.open(QFile::WriteOnly | QFile::Text)){
         QTextStream ispis(&radnaDatoteka);
@@ -58,7 +88,7 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionSave_As_triggered()
 {
-    //Save as file
+    //Save as komanda na otvorenom fajlu
     QString datoteka = QFileDialog::getSaveFileName(this,"Sacuvaj datoteku");
     if(!datoteka.isEmpty()){
         nazivDatoteke = datoteka;
@@ -70,35 +100,35 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_actionCut_triggered()
 {
-    // Cut tekst
+    // Cut komanda na označenom tekstu
     ui->textEdit->cut();
 
 }
 
 void MainWindow::on_actionCopy_triggered()
 {
-    //Copy tekst
+    //Copy komanda na označenom tekstu
     ui->textEdit->copy();
 
 }
 
 void MainWindow::on_actionPaste_triggered()
 {
-    //Paste tekst
+    //Paste komanda na označenom tekstu
     ui->textEdit->paste();
 
 }
 
 void MainWindow::on_actionUndo_triggered()
 {
-    //Undo
+    //Undo komanda
     ui->textEdit->undo();
 
 }
 
 void MainWindow::on_actionRedo_triggered()
 {
-    //Redo
+    //Redo komanda
     ui->textEdit->redo();
 
 
@@ -128,49 +158,57 @@ void MainWindow::on_actionUnderline_toggled(bool arg1)
 
 void MainWindow::on_fontWheel_currentFontChanged(const QFont &f)
 {
+    //mijenjanje fonta na označenom tekstu uslijed promjene na fontWheel widgetu
     ui->textEdit->setFontFamily(f.family());
 }
 
 void MainWindow::on_fontSizeWheel_valueChanged(int arg1)
 {
+    //mijenjanje veličine fonta na označenom tekstu uslijed promjene na fontSizeWheel widgetu
     ui->textEdit->setFontPointSize(arg1);
 }
 
 void MainWindow::on_lAllignButton_clicked()
 {
+    //lijevo poravnavanje teksta uslijed klika na dugme
     ui->textEdit->setAlignment(Qt::AlignLeft);
 }
 
 void MainWindow::on_centerButton_clicked()
 {
+    //centritranje teksta uslijed klika na dugme
     ui->textEdit->setAlignment(Qt::AlignHCenter);
 }
 
 void MainWindow::on_rAllignButton_clicked()
 {
+    //desno poravnavanje teksta uslijed klika na dugme
     ui->textEdit->setAlignment(Qt::AlignRight);
 }
 
 void MainWindow::on_justifyButton_clicked()
 {
+    //justify poravnavanje teksta uslijed klika na dugme
     ui->textEdit->setAlignment(Qt::AlignJustify);
 }
 
 void MainWindow::on_textEdit_cursorPositionChanged()
 {
-    //Bold button update
+    //Pri svakoj promjeni pozicije kursora:
+
+    //Bold dugme update
     if(ui->textEdit->fontWeight()==75)
         ui->actionBold->setChecked(1);
     else
         ui->actionBold->setChecked(0);
 
-    //Italic button update
+    //Italic dugme update
     if(ui->textEdit->fontItalic())
         ui->actionItalic->setChecked(1);
     else
         ui->actionItalic->setChecked(0);
 
-    //Underline button update
+    //Underline dugme update
     if(ui->textEdit->fontUnderline())
         ui->actionUnderline->setChecked(1);
     else
@@ -192,3 +230,62 @@ void MainWindow::on_textEdit_cursorPositionChanged()
 
 }
 
+
+void MainWindow::showFindWindow(){
+
+    //otvara Find window i postavlja kursor na početak doumenta
+    QTextCursor c=ui->textEdit->textCursor();
+    c.movePosition(QTextCursor::Start);
+    ui->textEdit->setTextCursor(c);
+    f->exec();
+
+}
+
+void MainWindow::refreshCursorHandler(){
+
+    //Postavlja kursor na početak dokumenta
+    QTextCursor c=ui->textEdit->textCursor();
+    c.movePosition(QTextCursor::Start);
+    ui->textEdit->setTextCursor(c);
+
+}
+
+void MainWindow::findNextHandler(QString &word,bool caseSensitive,bool matchWholeWords){
+
+    //pretražuje dokument za traženu riječ po postavljenim kriterijima(Case sensitivity i da li je traženi string segment ili cijela riječ)
+    bool err=0;
+
+    if((caseSensitive==0) & (matchWholeWords==0))
+        err=ui->textEdit->find(word);
+    else if(caseSensitive==0 && matchWholeWords==1)
+        err=ui->textEdit->find(word,QTextDocument::FindWholeWords);
+    else if(caseSensitive==1 && matchWholeWords==0)
+        err=ui->textEdit->find(word,QTextDocument::FindCaseSensitively);
+    else if(caseSensitive==1 && matchWholeWords==1)
+        err=ui->textEdit->find(word,QTextDocument::FindWholeWords|QTextDocument::FindCaseSensitively);
+
+    if(err==0){
+        QMessageBox *noMatch=new QMessageBox(f);
+        noMatch->setWindowTitle("No match found!");
+        noMatch->setText("No match found for your word: "+word);
+        noMatch->exec();
+    }
+    QPushButton *temp=r->findChild<QPushButton*>("replace");
+    temp->setEnabled(err);
+}
+
+void MainWindow::showReplaceWindow(){
+
+    //otvara Replace Window
+    QTextCursor c=ui->textEdit->textCursor();
+    c.movePosition(QTextCursor::Start);
+    ui->textEdit->setTextCursor(c);
+    r->exec();
+
+}
+
+void MainWindow::replaceHandler(QString &word, QString &word2){
+
+    ui->textEdit->textCursor().insertText(word2);
+
+}

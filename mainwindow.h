@@ -7,10 +7,11 @@
 #include <QtCore>
 #include <QString>
 #include <QSpinBox>
+#include "find.h"
+#include "replace.h"
 
 namespace Ui {
 class MainWindow;
-class FindBox;
 }
 
 class MainWindow : public QMainWindow
@@ -60,17 +61,23 @@ private slots:
 
     void on_justifyButton_clicked();
 
+    void showFindWindow();
+
+    void findNextHandler(QString &word, bool caseSensitive, bool matchWholeWords);
+
+    void refreshCursorHandler();
+
+    void showReplaceWindow();
+
+    void replaceHandler(QString &word, QString &word2);
+
+
 private:
     Ui::MainWindow *ui;
     QString nazivDatoteke;
+    Find *f;
+    Replace *r;
 };
 
-class FindBox: public QWindow
-{
-    Q_OBJECT
-
-
-
-};
 
 #endif // MAINWINDOW_H

@@ -146,9 +146,9 @@
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
    </widget>
-   <widget class="QMenu" name="menuFont">
+   <widget class="QMenu" name="menuFormat">
     <property name="title">
-     <string>Font</string>
+     <string>Format</string>
     </property>
     <addaction name="actionBold"/>
     <addaction name="actionItalic"/>
@@ -156,7 +156,7 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuFont"/>
+   <addaction name="menuFormat"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="toolButtonStyle">
@@ -185,6 +185,7 @@
    <addaction name="actionUnderline"/>
    <addaction name="separator"/>
    <addaction name="actionFind"/>
+   <addaction name="actionReplace"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
@@ -347,6 +348,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionReplace">
+   <property name="text">
+    <string>Replace</string>
+   </property>
+   <property name="toolTip">
+    <string>Ctrl + R</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>
