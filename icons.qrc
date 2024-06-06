@@ -9,5 +9,15 @@
         <file>Icons/Save as.ico</file>
         <file>Icons/Save.ico</file>
         <file>Icons/Undo.ico</file>
+        <file>Icons/Bold.png</file>
+        <file>Icons/Italic.png</file>
+        <file>Icons/Underline.png</file>
+        <file>Icons/Find.png</file>
+        <file>Icons/Replace.png</file>
+        <file>Icons/CenterAlign.png</file>
+        <file>Icons/LeftAlign.png</file>
+        <file>Icons/RightAlign.png</file>
+        <file>Icons/JustifyAlign.png</file>
+        <file>Icons/TextEditor Icon.png</file>
     </qresource>
 </RCC>

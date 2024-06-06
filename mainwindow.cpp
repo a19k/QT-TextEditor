@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Find Next dugme poziva findNextHandler
     connect(r,SIGNAL(findNext(QString&,bool,bool)),this,SLOT(findNextHandler(QString&,bool,bool)));
     //Replace dugme poziva replaceHandler
-    connect(r,SIGNAL(replace(QString&,QString&)),this,SLOT(replaceHandler(QString&,QString&)));
+    connect(r,SIGNAL(replace(QString&)),this,SLOT(replaceHandler(QString&)));
     //promjena traženog stringa poziva refreshCursorHandler
     connect(r,SIGNAL(refreshCursor()),this,SLOT(refreshCursorHandler()));
 
@@ -280,12 +280,16 @@ void MainWindow::showReplaceWindow(){
     QTextCursor c=ui->textEdit->textCursor();
     c.movePosition(QTextCursor::Start);
     ui->textEdit->setTextCursor(c);
+
+    QPushButton *temp=r->findChild<QPushButton*>("replace");
+    temp->setEnabled(0);
+
     r->exec();
 
 }
 
-void MainWindow::replaceHandler(QString &word, QString &word2){
+void MainWindow::replaceHandler(QString &word){
 
-    ui->textEdit->textCursor().insertText(word2);
+    ui->textEdit->textCursor().insertText(word);
 
 }

@@ -24,10 +24,9 @@ void Replace::on_replace_clicked()
 {
     ui->replace->setEnabled(0);
 
-    QString word=ui->findEdit->text();
-    QString word2=ui->replaceEdit->text();
+    QString word=ui->replaceEdit->text();
 
-    emit replace(word,word2);
+    emit replace(word);
 }
 
 Replace::~Replace()

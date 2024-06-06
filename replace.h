@@ -18,7 +18,7 @@ public:
 signals:
     void findNext(QString &word,bool caseSensitive,bool matchWholeWords);
 
-    void replace(QString &word,QString &word2);
+    void replace(QString &word);
 
     void refreshCursor();
 

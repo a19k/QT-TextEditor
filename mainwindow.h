@@ -69,7 +69,7 @@ private slots:
 
     void showReplaceWindow();
 
-    void replaceHandler(QString &word, QString &word2);
+    void replaceHandler(QString &word);
 
 
 private:

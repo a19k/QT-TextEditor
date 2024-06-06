@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Text Editor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/Icons/Icons/TextEditor Icon.png</normaloff>:/Icons/Icons/TextEditor Icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
@@ -70,8 +74,9 @@
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
-    <property name="text">
-     <string>L</string>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/Icons/Icons/LeftAlign.png</normaloff>:/Icons/Icons/LeftAlign.png</iconset>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -86,8 +91,9 @@
       <height>30</height>
      </rect>
     </property>
-    <property name="text">
-     <string>C</string>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/Icons/Icons/CenterAlign.png</normaloff>:/Icons/Icons/CenterAlign.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="rAllignButton">
@@ -99,8 +105,9 @@
       <height>30</height>
      </rect>
     </property>
-    <property name="text">
-     <string>R</string>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/Icons/Icons/RightAlign.png</normaloff>:/Icons/Icons/RightAlign.png</iconset>
     </property>
    </widget>
    <widget class="QPushButton" name="justifyButton">
@@ -112,8 +119,9 @@
       <height>30</height>
      </rect>
     </property>
-    <property name="text">
-     <string>J</string>
+    <property name="icon">
+     <iconset resource="icons.qrc">
+      <normaloff>:/Icons/Icons/JustifyAlign.png</normaloff>:/Icons/Icons/JustifyAlign.png</iconset>
     </property>
    </widget>
   </widget>
@@ -145,6 +153,9 @@
     <addaction name="separator"/>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionFind"/>
+    <addaction name="actionReplace"/>
    </widget>
    <widget class="QMenu" name="menuFormat">
     <property name="title">
@@ -298,8 +309,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Icons/Bold.png</normaloff>Icons/Bold.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/Icons/Bold.png</normaloff>:/Icons/Icons/Bold.png</iconset>
    </property>
    <property name="text">
     <string>Bold</string>
@@ -315,6 +326,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/Icons/Italic.png</normaloff>:/Icons/Icons/Italic.png</iconset>
+   </property>
    <property name="text">
     <string>Italic</string>
    </property>
@@ -329,6 +344,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/Icons/Underline.png</normaloff>:/Icons/Icons/Underline.png</iconset>
+   </property>
    <property name="text">
     <string>Underline</string>
    </property>
@@ -340,6 +359,10 @@
    </property>
   </action>
   <action name="actionFind">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/Icons/Find.png</normaloff>:/Icons/Icons/Find.png</iconset>
+   </property>
    <property name="text">
     <string>Find</string>
    </property>
@@ -351,6 +374,10 @@
    </property>
   </action>
   <action name="actionReplace">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Icons/Icons/Replace.png</normaloff>:/Icons/Icons/Replace.png</iconset>
+   </property>
    <property name="text">
     <string>Replace</string>
    </property>
