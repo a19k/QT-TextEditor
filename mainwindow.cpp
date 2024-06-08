@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //REPLACE WINDOW KONEKCIJE
+
     //Replace action poziva Replace window
     connect(ui->actionReplace,SIGNAL(triggered(bool)),this,SLOT(showReplaceWindow()));
 
@@ -67,7 +68,7 @@ void MainWindow::on_actionOpen_triggered()
             QTextStream upis(&radnaDatoteka);
             QString tekst = upis.readAll();
             radnaDatoteka.close();
-            ui->textEdit->setPlainText(tekst);
+            ui->textEdit->setText(tekst);
         }
     }
 
@@ -79,7 +80,7 @@ void MainWindow::on_actionSave_triggered()
     QFile radnaDatoteka(nazivDatoteke);
     if(radnaDatoteka.open(QFile::WriteOnly | QFile::Text)){
         QTextStream ispis(&radnaDatoteka);
-        ispis<<ui->textEdit->toPlainText();
+        ispis<<ui->textEdit->toHtml();
         radnaDatoteka.flush();
         radnaDatoteka.close();
     }
